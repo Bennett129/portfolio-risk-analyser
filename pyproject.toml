@@ -1,0 +1,54 @@
+[project]
+name = "riskanalyser"
+version = "0.1.0"
+description = "Portfolio risk analytics: frontier, VaR, correlation, drawdown and Monte Carlo."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Bennett Beylefeld" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "numpy>=2.5.4",
+    "pandas>=3.1.1",
+]
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "mypy>=2.4.1",
+    "pandas-stubs>=3.1.0.261029",
+    "pytest>=9.2.0",
+    "pytest-cov>=7.1.0",
+    "pytest-socket>=0.8.1",
+    "ruff>=0.17.3",
+]
+
+[tool.ruff]
+line-length = 100
+src = ["src", "tests"]
+extend-exclude = ["frontend"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4", "SIM", "PT", "NPY", "RUF"]
+
+[tool.mypy]
+strict = true
+files = ["src", "tests"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# --disable-socket makes any test that touches the network fail, keeping the suite offline.
+addopts = "--disable-socket --strict-markers --strict-config --import-mode=importlib -ra"
+
+[tool.coverage.run]
+source = ["riskanalyser"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true

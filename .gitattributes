@@ -1,0 +1,4 @@
+# Use LF everywhere so formatting checks give the same result on Windows and CI.
+* text=auto eol=lf
+*.png binary
+*.ico binary
