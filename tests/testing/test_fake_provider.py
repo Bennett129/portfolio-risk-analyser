@@ -1,7 +1,15 @@
 import pandas as pd
 import pytest
 
+from riskanalyser.data.provider import PriceProvider
+from riskanalyser.errors import UnknownTickerError
 from riskanalyser.testing import FakePriceProvider, SyntheticMarket
+
+
+def test_fake_provider_follows_the_interface(price_provider: FakePriceProvider) -> None:
+    # The type hint makes mypy check FakePriceProvider against PriceProvider.
+    provider: PriceProvider = price_provider
+    assert provider is price_provider
 
 
 def test_returns_requested_tickers_in_requested_order(
@@ -29,7 +37,7 @@ def test_a_window_without_data_returns_empty_frames(price_provider: FakePricePro
 
 
 def test_unknown_tickers_are_named_in_the_error(price_provider: FakePriceProvider) -> None:
-    with pytest.raises(KeyError, match="ZZZ"):
+    with pytest.raises(UnknownTickerError, match="ZZZ"):
         price_provider.get_prices(["AAA", "ZZZ"])
 
 
@@ -55,7 +63,7 @@ def test_mismatched_frames_are_rejected() -> None:
     adjusted = pd.DataFrame({"AAA": [1.0, 2.0]}, index=dates)
     close = pd.DataFrame({"BBB": [1.0, 2.0]}, index=dates)
 
-    with pytest.raises(ValueError, match="matching dates and tickers"):
+    with pytest.raises(ValueError, match="same tickers"):
         FakePriceProvider(adjusted, close)
 
 
