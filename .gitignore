@@ -20,8 +20,8 @@ coverage.xml
 .env.*
 !.env.example
 
-# Local market data cache
-data/
+# Local market data cache (root only, not the riskanalyser.data package)
+/data/
 
 # Editors and operating systems
 .idea/
