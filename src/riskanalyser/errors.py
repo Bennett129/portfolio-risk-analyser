@@ -40,3 +40,7 @@ class ProviderError(RiskAnalyserError):
         self.provider = provider
         self.reason = reason
         super().__init__(f"{provider} failed: {reason}")
+
+
+class StaleDataWarning(UserWarning):
+    """Cached prices older than today were used because a refresh failed."""
